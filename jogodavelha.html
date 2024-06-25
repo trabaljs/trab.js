@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!--Precisamos ajeitar os bugs-->
+    <title>Jogo da velha</title>
+
+    <style>
+    *{
+    margin: 0px;
+    padding: 0px;
+    }
+    main{
+        font-family: Arial;
+        text-align: center;
+        font-size: 20px;
+    }
+    table{
+        display: flex;
+        height: 500px;
+        align-items: center;
+        justify-content: center;
+
+    }
+    td{
+        border: 3px black solid;
+        height: 120px;
+        width: 120px;
+        background-color: rgb(155, 215, 143);
+        cursor: pointer;
+        margin: 10px;
+        font-size: 100px;
+        text-align: center;
+
+    } 
+    .jogador1{
+        background-image: url(Images/Tinker\ Bell.jpeg);
+        background-size: cover;
+        background-color: rgb(114, 255, 48);
+    }
+    .jogador2{
+        background-image: url(Images/peter\ pan.jpeg);
+        background-size: cover;
+        background-color: rgba(155, 90, 5, 0.897);
+    }
+    body{
+        background-image: url(Images/fundo.jpeg);
+        background-size: cover;
+    }
+    .ganhou{
+        background-color: white;
+    }
+    </style>
+    <script>
+    var jogador = 1;
+    var jogadas = new Array(9);
+    var jogadorAtual;
+    var jogadastotal = 0;
+    var podejogar = true;
+    
+
+    function jogar(id) {
+        if (document.getElementById(id).className != "jogador1" && document.getElementById(id).className != "jogador2") {
+            jogadas[id] = jogador;
+            if(podejogar==true){
+                if (jogador == 1) {
+                    document.getElementById(id).className = "jogador1";
+                    jogador++;
+                    jogadorAtual = 1;
+                } else if (jogador == 2) {
+                    document.getElementById(id).className = "jogador2";
+                    jogador--;
+                    jogadorAtual = 2;
+                }
+                
+                jogadastotal++;
+                checar();
+            }
+        }
+    }
+
+    function ganhador(jogador) {
+        let linhas = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        for (var i = 0; i < linhas.length; i++) {
+            let linha = linhas[i];
+            let a = linha[0];
+            let b = linha[1];
+            let c = linha[2];
+
+            if (jogadas[a] && jogadas[a] == jogador && jogadas[a] == jogadas[b] && jogadas[a] == jogadas[c]) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    function checar() {
+        if (ganhador(jogadorAtual)) {
+            if (jogadorAtual == 1) {
+                setTimeout(()=>{
+                    alert("Tinker Bell ganhou!");
+                    podejogar=false;
+                },90)
+                
+            } 
+            else {
+                setTimeout(()=>{
+                    alert("Peter Pan ganhou!");
+                    podejogar=false;
+                },90)
+            }
+            } else if (jogadastotal == 9) {
+                setTimeout(()=>{
+                    alert("empate");
+                    podejogar=false;
+                },90)
+            }
+    }
+    </script>
+</head>
+<body>
+    <main>
+        <br><br>
+        <h1>Jogo da velha</h1>
+        <table>
+            
+            <tr>
+                <td id="0" onclick="jogar(this.id)"></td>
+                <td id="1" onclick="jogar(this.id)"></td>
+                <td id="2" onclick="jogar(this.id)"></td>
+            </tr>
+            <tr>
+                <td id="3" onclick="jogar(this.id)"></td>
+                <td id="4" onclick="jogar(this.id)"></td>
+                <td id="5" onclick="jogar(this.id)"></td>
+            </tr>
+            <tr>
+                <td id="6" onclick="jogar(this.id)"></td>
+                <td id="7" onclick="jogar(this.id)"></td>
+                <td id="8" onclick="jogar(this.id)"></td>
+            </tr>
+        </table>
+    </main>
+</body>
+</html>
